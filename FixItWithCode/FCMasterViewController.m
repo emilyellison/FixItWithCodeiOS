@@ -8,6 +8,7 @@
 
 #import "FCMasterViewController.h"
 #import "FCDetailViewController.h"
+#import "ASIHTTPRequest.h"
 #import "Post.h"
 
 @interface FCMasterViewController () {
@@ -18,21 +19,33 @@
 @implementation FCMasterViewController
 
 @synthesize allPosts = _allPosts;
+@synthesize feeds = _feeds;
+@synthesize queue = _queue;
 
-- (void)addRows {
-    Post *post1 = [[Post alloc] initWithArticleTitle:@"1"
-                                          articleUrl:@"1"
-                                         articleDate:[NSDate date]];
-    Post *post2 = [[Post alloc] initWithArticleTitle:@"2"
-                                          articleUrl:@"2"
-                                         articleDate:[NSDate date]];
-    Post *post3 = [[Post alloc] initWithArticleTitle:@"3"
-                                          articleUrl:@"3"
-                                         articleDate:[NSDate date]];
+- (void)refresh {
+    for (NSString *feed in _feeds) {
+        NSURL *url = [NSURL URLWithString:feed];
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+        [request setDelegate:self];
+        [_queue addOperation:request];
+    }
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request {
     
-    [_allPosts insertObject:post1 atIndex:0];
-    [_allPosts insertObject:post2 atIndex:0];
-    [_allPosts insertObject:post3 atIndex:0];
+    Post *post = [[Post alloc] initWithArticleTitle:request.url.absoluteString
+                                         articleUrl:request.url.absoluteString
+                                        articleDate:[NSDate date]];
+    int insertIdx = 0;
+    [_allPosts insertObject:post atIndex:insertIdx];
+    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:insertIdx inSection:0]]
+                          withRowAnimation:UITableViewRowAnimationRight];
+    
+}
+
+- (void)requestFailed:(ASIHTTPRequest *)request {
+    NSError *error = [request error];
+    NSLog(@"Error: %@", error);
 }
 
 - (void)awakeFromNib
@@ -46,7 +59,9 @@
     
     self.title = @"Fix It With Code";
     self.allPosts = [NSMutableArray array];
-    [self addRows];
+    self.queue = [[NSOperationQueue alloc] init];
+    self.feeds = [NSArray arrayWithObjects:@"http://www.fixitwithcode.com/feed", nil];
+    [self refresh];
 }
 
 - (void)didReceiveMemoryWarning

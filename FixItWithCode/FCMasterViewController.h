@@ -13,6 +13,8 @@ NSMutableArray *_allPosts;
 @interface FCMasterViewController : UITableViewController
 
     @property (retain) NSMutableArray *allPosts;
+    @property (retain) NSOperationQueue *queue;
+    @property (retain) NSArray *feeds;
 
 @end
 
