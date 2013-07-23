@@ -33,6 +33,8 @@
 		9974384A179EE497007045D2 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 9974383E179EE497007045D2 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9974384B179EE497007045D2 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 99743840179EE497007045D2 /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9974384C179EE497007045D2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 99743843179EE497007045D2 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		99743850179EEBB5007045D2 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9974384F179EEBB5007045D2 /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		99743854179EEE6E007045D2 /* GDataXMLElement-Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 99743853179EEE6E007045D2 /* GDataXMLElement-Extras.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +84,10 @@
 		99743841179EE497007045D2 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIProgressDelegate.h; path = ASIHTTPRequest/ASIProgressDelegate.h; sourceTree = "<group>"; };
 		99743842179EE497007045D2 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = ASIHTTPRequest/Reachability.h; sourceTree = "<group>"; };
 		99743843179EE497007045D2 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = ASIHTTPRequest/Reachability.m; sourceTree = "<group>"; };
+		9974384E179EEBB5007045D2 /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GDataXMLNode.h; path = GDataXML/GDataXMLNode.h; sourceTree = "<group>"; };
+		9974384F179EEBB5007045D2 /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDataXMLNode.m; path = GDataXML/GDataXMLNode.m; sourceTree = "<group>"; };
+		99743852179EEE6E007045D2 /* GDataXMLElement-Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GDataXMLElement-Extras.h"; sourceTree = "<group>"; };
+		99743853179EEE6E007045D2 /* GDataXMLElement-Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GDataXMLElement-Extras.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +111,7 @@
 		99743791179ED400007045D2 = {
 			isa = PBXGroup;
 			children = (
+				9974384D179EEB9D007045D2 /* GDataXML */,
 				9974380D179EE44B007045D2 /* ASIHTTPRequest */,
 				997437EC179EE1FF007045D2 /* libz.1.2.5.dylib */,
 				997437EA179EE1EC007045D2 /* MobileCoreServices.framework */,
@@ -194,6 +201,17 @@
 			name = ASIHTTPRequest;
 			sourceTree = "<group>";
 		};
+		9974384D179EEB9D007045D2 /* GDataXML */ = {
+			isa = PBXGroup;
+			children = (
+				9974384E179EEBB5007045D2 /* GDataXMLNode.h */,
+				99743852179EEE6E007045D2 /* GDataXMLElement-Extras.h */,
+				99743853179EEE6E007045D2 /* GDataXMLElement-Extras.m */,
+				9974384F179EEBB5007045D2 /* GDataXMLNode.m */,
+			);
+			name = GDataXML;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -275,6 +293,8 @@
 				9974384A179EE497007045D2 /* ASIInputStream.m in Sources */,
 				9974384B179EE497007045D2 /* ASINetworkQueue.m in Sources */,
 				9974384C179EE497007045D2 /* Reachability.m in Sources */,
+				99743850179EEBB5007045D2 /* GDataXMLNode.m in Sources */,
+				99743854179EEE6E007045D2 /* GDataXMLElement-Extras.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,8 +345,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lxml2";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -349,8 +371,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-lxml2";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

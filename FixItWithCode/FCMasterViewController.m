@@ -9,6 +9,8 @@
 #import "FCMasterViewController.h"
 #import "FCDetailViewController.h"
 #import "ASIHTTPRequest.h"
+#import "GDataXMLNode.h"
+#import "GDataXMLElement-Extras.h"
 #import "Post.h"
 
 @interface FCMasterViewController () {
@@ -31,17 +33,99 @@
     }
 }
 
-- (void)requestFinished:(ASIHTTPRequest *)request {
+- (void)parseRss:(GDataXMLElement *)rootElement posts:(NSMutableArray *)posts {
     
-    Post *post = [[Post alloc] initWithArticleTitle:request.url.absoluteString
-                                         articleUrl:request.url.absoluteString
-                                        articleDate:[NSDate date]];
-    int insertIdx = 0;
-    [_allPosts insertObject:post atIndex:insertIdx];
-    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:insertIdx inSection:0]]
-                          withRowAnimation:UITableViewRowAnimationRight];
+    NSArray *channels = [rootElement elementsForName:@"channel"];
+    for (GDataXMLElement *channel in channels) {
+                
+        NSArray *items = [channel elementsForName:@"item"];
+        for (GDataXMLElement *item in items) {
+            NSString *articleTitle = [item valueForChild:@"title"];
+            NSString *articleUrl = [item valueForChild:@"link"];
+            NSString *articleDateString = [item valueForChild:@"pubDate"];
+            NSDate *articleDate = nil;
+            
+            Post *post = [[Post alloc] initWithArticleTitle:articleTitle
+                                                 articleUrl:articleUrl
+                                                articleDate:articleDate];
+            [posts addObject:post];
+            
+        }
+    }
     
 }
+
+- (void)parseAtom:(GDataXMLElement *)rootElement posts:(NSMutableArray *)posts {
+        
+    NSArray *items = [rootElement elementsForName:@"entry"];
+    for (GDataXMLElement *item in items) {
+        NSLog(@"%@", item);
+        NSString *articleTitle = [item valueForChild:@"title"];
+        NSString *articleUrl = nil;
+        NSArray *links = [item elementsForName:@"link"];
+        for(GDataXMLElement *link in links) {
+            NSString *rel = [[link attributeForName:@"rel"] stringValue];
+            NSString *type = [[link attributeForName:@"type"] stringValue];
+            if ([rel compare:@"alternate"] == NSOrderedSame &&
+                [type compare:@"text/html"] == NSOrderedSame) {
+                articleUrl = [[link attributeForName:@"href"] stringValue];
+            }
+        }
+        
+        NSString *articleDateString = [item valueForChild:@"published"];
+        NSDate *articleDate = nil;
+        
+        Post *post = [[Post alloc] initWithArticleTitle:articleTitle
+                                             articleUrl:articleUrl
+                                            articleDate:articleDate];
+        [posts addObject:post];
+        
+    }      
+    
+}
+
+- (void)parseFeed:(GDataXMLElement *)rootElement posts:(NSMutableArray *)posts {
+    if ([rootElement.name compare:@"rss"] == NSOrderedSame) {
+        [self parseRss:rootElement posts:posts];
+    } else if ([rootElement.name compare:@"feed"] == NSOrderedSame) {
+        [self parseAtom:rootElement posts:posts];
+    } else {
+        NSLog(@"Unsupported root element: %@", rootElement.name);
+    }
+}
+
+- (void)requestFinished:(ASIHTTPRequest *)request {
+    
+    [_queue addOperationWithBlock:^{
+        
+        NSError *error;
+        GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:[request responseData]
+                                                               options:0 error:&error];
+        if (doc == nil) {
+            NSLog(@"Failed to parse %@", request.url);
+        } else {
+            
+            NSMutableArray *posts = [NSMutableArray array];
+            [self parseFeed:doc.rootElement posts:posts];
+            
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                
+                for (Post *post in posts) {
+                    
+                    int insertIdx = 0;
+                    [_allPosts insertObject:post atIndex:insertIdx];
+                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:insertIdx inSection:0]]
+                                          withRowAnimation:UITableViewRowAnimationRight];
+                    
+                }
+                
+            }];
+            
+        }        
+    }];
+    
+}
+
 
 - (void)requestFailed:(ASIHTTPRequest *)request {
     NSError *error = [request error];
