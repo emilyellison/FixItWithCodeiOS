@@ -35,6 +35,8 @@
 		9974384C179EE497007045D2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 99743843179EE497007045D2 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		99743850179EEBB5007045D2 /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9974384F179EEBB5007045D2 /* GDataXMLNode.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		99743854179EEE6E007045D2 /* GDataXMLElement-Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 99743853179EEE6E007045D2 /* GDataXMLElement-Extras.m */; };
+		99743858179F3870007045D2 /* NSDate+InternetDateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 99743857179F3870007045D2 /* NSDate+InternetDateTime.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9974385B179F3960007045D2 /* NSArray+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 9974385A179F395F007045D2 /* NSArray+Extras.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,10 @@
 		9974384F179EEBB5007045D2 /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GDataXMLNode.m; path = GDataXML/GDataXMLNode.m; sourceTree = "<group>"; };
 		99743852179EEE6E007045D2 /* GDataXMLElement-Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GDataXMLElement-Extras.h"; sourceTree = "<group>"; };
 		99743853179EEE6E007045D2 /* GDataXMLElement-Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GDataXMLElement-Extras.m"; sourceTree = "<group>"; };
+		99743856179F3870007045D2 /* NSDate+InternetDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+InternetDateTime.h"; path = "MWFeedParser/NSDate+InternetDateTime.h"; sourceTree = "<group>"; };
+		99743857179F3870007045D2 /* NSDate+InternetDateTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+InternetDateTime.m"; path = "MWFeedParser/NSDate+InternetDateTime.m"; sourceTree = "<group>"; };
+		99743859179F395F007045D2 /* NSArray+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Extras.h"; sourceTree = "<group>"; };
+		9974385A179F395F007045D2 /* NSArray+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Extras.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +117,7 @@
 		99743791179ED400007045D2 = {
 			isa = PBXGroup;
 			children = (
+				99743855179F385D007045D2 /* MWFeedParser */,
 				9974384D179EEB9D007045D2 /* GDataXML */,
 				9974380D179EE44B007045D2 /* ASIHTTPRequest */,
 				997437EC179EE1FF007045D2 /* libz.1.2.5.dylib */,
@@ -118,6 +125,8 @@
 				997437E8179EE1DE007045D2 /* SystemConfiguration.framework */,
 				997437E6179EE1CB007045D2 /* CFNetwork.framework */,
 				997437C3179ED439007045D2 /* Post.h */,
+				99743859179F395F007045D2 /* NSArray+Extras.h */,
+				9974385A179F395F007045D2 /* NSArray+Extras.m */,
 				997437C4179ED439007045D2 /* Post.m */,
 				997437A3179ED401007045D2 /* FixItWithCode */,
 				9974379C179ED401007045D2 /* Frameworks */,
@@ -212,6 +221,15 @@
 			name = GDataXML;
 			sourceTree = "<group>";
 		};
+		99743855179F385D007045D2 /* MWFeedParser */ = {
+			isa = PBXGroup;
+			children = (
+				99743856179F3870007045D2 /* NSDate+InternetDateTime.h */,
+				99743857179F3870007045D2 /* NSDate+InternetDateTime.m */,
+			);
+			name = MWFeedParser;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -295,6 +313,8 @@
 				9974384C179EE497007045D2 /* Reachability.m in Sources */,
 				99743850179EEBB5007045D2 /* GDataXMLNode.m in Sources */,
 				99743854179EEE6E007045D2 /* GDataXMLElement-Extras.m in Sources */,
+				99743858179F3870007045D2 /* NSDate+InternetDateTime.m in Sources */,
+				9974385B179F3960007045D2 /* NSArray+Extras.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
